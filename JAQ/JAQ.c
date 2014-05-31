@@ -46,7 +46,7 @@ int main(void)
 	}
 		
 			
-	int DutyCycle = 10;	
+	double DutyCycle = 1;	
 	//change the duty cycle ever 50ms, for testing	
 	while (DutyCycle<100)
 	{
@@ -54,11 +54,11 @@ int main(void)
 		OCR2A = (DutyCycle/100)*255;
 		//when does this actually update? after timer reset?
 		
-		if(DutyCycle>=90)
+		if(DutyCycle>=99)
 		{
-			DutyCycle=10;
+			DutyCycle=1;
 		}
-		_delay_ms(50);
+		_delay_ms(5);
 		DutyCycle++;
 	}
 
