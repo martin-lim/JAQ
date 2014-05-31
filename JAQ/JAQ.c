@@ -36,24 +36,30 @@ int main(void)
 	//TCCR2B |= (1<<CS22)|(1<<CS20)|(1<<WGM22);
 
 
+	//blinkled - hardware init complete
+	for(int i=0; i<3; i++)
+	{
 		PORTB |= (1<<5);
-		_delay_ms(500);
+		_delay_ms(100);
 		PORTB &= (0<<5);
-		_delay_ms(500);
+		_delay_ms(100);
+	}
 		
-	double DutyCycle = 10;
-		
-	while (DutyCycle<99)
+			
+	int DutyCycle = 10;	
+	//change the duty cycle ever 50ms, for testing	
+	while (DutyCycle<100)
 	{
 		
 		OCR2A = (DutyCycle/100)*255;
+		//when does this actually update? after timer reset?
 		
-		if(DutyCycle==98)
+		if(DutyCycle>=90)
 		{
 			DutyCycle=10;
 		}
-		DutyCycle++;
 		_delay_ms(50);
+		DutyCycle++;
 	}
 
 		
