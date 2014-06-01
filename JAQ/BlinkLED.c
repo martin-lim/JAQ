@@ -2,14 +2,14 @@
  * BlinkLED.c
  *
  * Created: 30/05/2014 11:53:17 PM
- *  Author: Martin
+ *  Author: Martin Lim
  *  Edited by: Shavi Nachman
  */ 
 
 #include <avr/io.h>
 #include <util/delay.h>
 
-void inithardware() //should not be used, should be in main initIO
+void inithardware() //TODO: move to init_IO
 {
 
 	DDRB |= (1<<PB5);
