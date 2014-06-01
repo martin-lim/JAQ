@@ -42,7 +42,6 @@ local.properties
 *.sln.docstates
 *.atsln
 *.atsuo
-*.cproj
 
 # Build results
 
