@@ -3,7 +3,8 @@
  *
  * Created: 27/05/2014 8:21:16 PM
  *  Author: Martin Lim
- *
+ *  Edited by: Shavi Nachman
+ 
  *	paste code here for testing
  */ 
 
@@ -11,17 +12,16 @@
 
 #include <avr/io.h>
 #include <util/delay.h>
-#include <avr/interrupt.h>
+//#include <avr/interrupt.h>
 
 int main(void)
 {
-	sei();
+	//sei(); don't need it? don't enable it
 	
 	//set the pin as output
 	//DDRB |= (1<<PORTD6);
-	DDRB |= 255;
-	DDRC |= 255;
-	DDRD |= 255;
+	
+	DDRB |= (1<<PORTD6); //select ports by (1<<PORTx)
 	
 	
 	//set Waveform Generation Mode - PWM Phase Correct
@@ -46,7 +46,7 @@ int main(void)
 	}
 		
 			
-	double DutyCycle = 1;	
+	double DutyCycle = 1; //don't use double (use short)... optimise for MCU
 	//change the duty cycle ever 50ms, for testing	
 	while (DutyCycle<100)
 	{
