@@ -6,33 +6,25 @@
  *  Edited by: Shavi Nachman
  */ 
 
-#define F_CPU 16000000UL
-
 #include <avr/io.h>
 #include <util/delay.h>
 
-void inithardware()
+void inithardware() //should not be used, should be in main initIO
 {
-	//portA
-	//DDRA = 0xFF;
-	DDRB = (1 <<5); //use (1<<PORTx)
+
+	DDRB |= (1<<PB5);
 }
 
-int main(void)
+int BlinkLED(int waittime)
 {
-	
-	inithardware(); //where is this file?
-	
-	while(1)
+	for (int i=0;i<500000;i++)
 	{
-		
-		//PORTA = 0xFF;
-		PORTB = (1<<5);
-		_delay_ms(100);
-		//PORTA = 0x00;
-		PORTB = (0<<5);
-		_delay_ms(500);
+		PORTB |= (1<<<<PB5);
+		_delay_ms(waittime);
+		PORTB &= ~(1<<<<PB5);
+		_delay_ms(waittime);
 		
 	}
+
 }
 

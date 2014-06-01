@@ -1,5 +1,7 @@
+//WHAT IS THIS FILE?
+
 /*
- * BlinkLED.h
+ * BlinkLED.c 
  *
  * Created: 30/05/2014 11:53:17 PM
  *  Author: Martin
