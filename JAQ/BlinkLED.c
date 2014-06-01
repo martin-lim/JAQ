@@ -9,10 +9,9 @@
 #include <avr/io.h>
 #include <util/delay.h>
 
-void inithardware()
+void inithardware() //should not be used, should be in main initIO
 {
-	//portA
-	//DDRA = 0xFF;
+
 	DDRB |= (1<<PB5);
 }
 
