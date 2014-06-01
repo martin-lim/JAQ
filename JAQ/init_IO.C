@@ -1,20 +1,50 @@
 /*
-* JAQ.c
-*
-* Created: 01/06/2014 11:03:16 AM
-* Author: Shavi Nachman
-*
-* init_IO for Atmega1280
-*/
+ * init_IO.c
+ *
+ * Created: 15/02/2012 22:54:33 PM
+ *  Author: Shavi
+ *  
+ *  bit order: 7654 3210
+ *	1 - bit out
+ *  0 - bits in
+ *	
+ *  PORTX HIGH when input - enable internal pullup
+ *  PORTX HIGH when output - drive port HIGH
+ *
+ *  unused PINS should have pullup's enabled
+ *  PORTA |= (1<<PORTA7); //set bit 7 port a
+ *  PORTA &= ~(1<<PORTA7); //unset bit 7 port a
+ *  PORTA & (1<<PORTA7); //check bit
+ *  
+ *  AIN - PE3,PE2
+ *   *  
+ *	TIMERS OUT:
+ *	OE11: PD1 - Must be set low to enable
+ *	OE12: PD0 - Must be set low to enable
+ *	OE21: PH7 - Must be set low to enable
+ *	OE22: PL0 - Must be set low to enable
+ *	
+ *	PWM1: PH5 (timer4c)
+ *	PWM2: PH4 (timer4b)
+ *	PWM3: PB5 (timer1A)
+ *	PWM4: PB6 (timer1B)
+ *	PWM5: PB7 (timer1c)
+ *	PWM6: PL3 (timer5a)
+ *	PWM7: PL4 (timer5b)
+ *	PWM8: PL5 (timer5c)
+ *	PWM9: PH3 (timer4a)
+ *	PWM10: PE5 (timer3c)
+ *	PWM11: PE4 (timer3b)
+ *	PWM12: PE3 (timer3a)
+ *	
+ */ 
 
-#include "include/init_io.h"
+#include "init_io.h"
 
 void init_IO()
 {
-  	//reset all unused ports
-  	DDRA=0x00; 
+    DDRA=0x00;
 	PORTA=0x00;
-
 
 	//timer 1A:PB5; timer1B:PB6; timer1C:PB7
 	DDRB=( (1<<PB5) |  (1<<PB6) | (1<<PB7) );
@@ -70,7 +100,7 @@ void init_usart()
 	//enable Rx interrupt on usart0
 	UCSR0B |= (1<<RXCIE0);
 	
-	// usart1:9_dof_razor
+	// usart1:
 	UCSR1B |= (1<<RXEN0); //enable receiver
 	UCSR1C |= ( (1<<UMSEL10) | (1<<UCSZ10) | (1<<UCSZ11) );//USART control vector: Synchronous mode with 8 bit data line
 
@@ -81,10 +111,7 @@ void init_usart()
 	//enable Rx interrupt on usart1
 	UCSR1B |= (1<<RXCIE1);
 	
-	//send '4' to 9dof to start receiving raw data
-	UDR1 = '4';
-		
-	// usart2:gps
+	// usart2:
 	UCSR2B |= (1<<RXEN0); //enable receiver
 	UCSR2C |= ( (1<<UMSEL20) | (1<<UCSZ20) | (1<<UCSZ21) );//USART control vector: Synchronous mode with 8 bit data line
 
@@ -130,3 +157,15 @@ void init_timers()
 	DDRL |= ( (1<<PL3) | (1<<PL4) | (1<<PL5) );
 	
 }	
+
+
+
+//void init_ADC()
+/*
+ *	//README: connect a 330OHM resistor from ADCIN and 5V and GND
+			//USE VOLTAGE DIVIER AND CONENCT TO PIN AIN0
+			//V_Batt_status = ACO; 
+	
+			//comparator = (1.23 * 255) / ADC_data; 
+			//ADC_flag = '0'
+*/
