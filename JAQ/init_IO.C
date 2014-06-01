@@ -11,8 +11,8 @@
 
 void init_IO()
 {
-  //reset all unused ports
-  DDRA=0x00; 
+  	//reset all unused ports
+  	DDRA=0x00; 
 	PORTA=0x00;
 
 
