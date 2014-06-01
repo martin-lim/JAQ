@@ -1,8 +1,9 @@
 /*
- * BlinkLED.h
+ * BlinkLED.c
  *
  * Created: 30/05/2014 11:53:17 PM
  *  Author: Martin
+ *  Edited by: Shavi Nachman
  */ 
 
 #define F_CPU 16000000UL
@@ -14,13 +15,13 @@ void inithardware()
 {
 	//portA
 	//DDRA = 0xFF;
-	DDRB = (1 <<5);
+	DDRB = (1 <<5); //use (1<<PORTx)
 }
 
 int main(void)
 {
 	
-	inithardware();
+	inithardware(); //where is this file?
 	
 	while(1)
 	{
