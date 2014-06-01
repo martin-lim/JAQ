@@ -21,7 +21,7 @@ int main(void)
 	//set the pin as output
 	//DDRB |= (1<<PORTD6);
 	
-	DDRB |= (1<<PORTD6); //select ports by (1<<PORTx)
+	DDRB |= (1<<PORTB6); //select ports by (1<<PORTx)
 	
 	
 	//set Waveform Generation Mode - PWM Phase Correct
