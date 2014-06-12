@@ -221,3 +221,8 @@ pip-log.txt
 *.vcxproj
 *.filters
 JAQ/readme.txt
+*.sym
+*.eep
+*.elf
+*.hex
+*.lss
