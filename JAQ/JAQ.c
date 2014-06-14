@@ -14,8 +14,8 @@ int main(void)
 {
 	while(1)
 	{
-		updateSensors();
-		updateStabilise();
-		MotorControl();
+		//updateSensors();
+		//updateStabilise();
+		//MotorControl();
     }
 }
