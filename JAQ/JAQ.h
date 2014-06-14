@@ -8,14 +8,19 @@
  */ 
  #ifndef _JAQ_H_
 	#define _JAQ_H_
-		
+
+	#ifndef __AVR_ATmega328__
+	#define __AVR_ATmega328__
+	#endif
+
 	//Project menu > Project Properties (Alt+F7) > Toolchain > AVR/GNU C Compiler > Symbols > Add F_CPU=16000000UL to Defined Symbols
 	//main clock define
 	#ifndef F_CPU
-			#define F_CPU 16*10^6UL
+	#define F_CPU 16*10^6UL
 	#endif
 
 	#define CYCLES_PER_US ((F_CPU+500000)/1000000)
+	#define __DOXYGEN__
 
 	//standard library
 	#include <avr/interrupt.h>
