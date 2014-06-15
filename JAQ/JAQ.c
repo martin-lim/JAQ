@@ -7,8 +7,8 @@
  */ 
 
 
-#include <avr/io.h>
 #include "jaq.h"
+#include <avr/io.h>
 
 int main(void)
 {
