@@ -42,6 +42,7 @@
 
 # MCU name
 MCU = atmega328
+#MCU = atmega2560
 
 
 # Processor frequency.
