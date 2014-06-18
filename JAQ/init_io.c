@@ -58,31 +58,33 @@ void init_IO()
 	DDRD |= ( (1<<PD0) | (1<<PD1) | (1<<PD3) );
 	PORTD |= ( (1<<PORTD0) | (1<<PORTD1) | (1<<PORTD4) | (1<<PORTD5) | (1<<PORTD6) | (1<<PORTD7) );
 
-	//pe0:rx, pe1:tx; pe3:timer3a; pe4:timer4a; pe5:timer5a
-	DDRE=( (1<<PE1) | (1<<PE3) | (1<<PE4) | (1<<PE5)); //PE0 - RXDO, PE1 - TXD0
-	PORTE=0x00;
-	
-	DDRF=0x00;
-	PORTF=0x00;
-	
-	//PortG5: switch input, enable pullup resistor;
-	DDRG=0x00;
-	PORTG=( (1<<PORTG5) );
-	
-	// timer4a: ph3; timer4b: ph4; timer4c:ph5; OE21: PH7
-	DDRH=( (1<<PH3) | (1<<PH4) | (1<<PH5) | (1<<PH7) );
-	PORTH=0x00;
-
-	DDRJ=0x00;
-	PORTJ=0x00;
-	
-	//portK3: first gpio set to high;
-	DDRK=( (1<<PK3) );
-	PORTK=( (1<<PORTK3) ); 
-
-	//pl0: oe22
-	DDRL=( (1<<PL0) );
-	PORTL=0x00;
+	#ifdef __AVR_ATmega2560__
+		//pe0:rx, pe1:tx; pe3:timer3a; pe4:timer4a; pe5:timer5a
+		DDRE=( (1<<PE1) | (1<<PE3) | (1<<PE4) | (1<<PE5)); //PE0 - RXDO, PE1 - TXD0
+		PORTE=0x00;
+		
+		DDRF=0x00;
+		PORTF=0x00;
+		
+		//PortG5: switch input, enable pullup resistor;
+		DDRG=0x00;
+		PORTG=( (1<<PORTG5) );
+		
+		// timer4a: ph3; timer4b: ph4; timer4c:ph5; OE21: PH7
+		DDRH=( (1<<PH3) | (1<<PH4) | (1<<PH5) | (1<<PH7) );
+		PORTH=0x00;
+		
+		DDRJ=0x00;
+		PORTJ=0x00;
+		
+		//portK3: first gpio set to high;
+		DDRK=( (1<<PK3) );
+		PORTK=( (1<<PORTK3) ); 
+		
+		//pl0: oe22
+		DDRL=( (1<<PL0) );
+		PORTL=0x00;
+	#endif
 }
 
 void init_usart()
@@ -100,25 +102,26 @@ void init_usart()
 	//enable Rx interrupt on usart0
 	UCSR0B |= (1<<RXCIE0);
 	
-	// usart1:
-	UCSR1B |= (1<<RXEN0); //enable receiver
-	UCSR1C |= ( (1<<UMSEL10) | (1<<UCSZ10) | (1<<UCSZ11) );//USART control vector: Synchronous mode with 8 bit data line
-
-	//Baud Rate define in USART.h
-	UBRR1H = (BaudPrescale >> 8); //load upper 8 bits of baud rate value to high byte of UBRRH
-	UBRR1L = BaudPrescale; // load lower 8 bits to low byte of UBBR register
-	
-	//enable Rx interrupt on usart1
-	UCSR1B |= (1<<RXCIE1);
-	
-	// usart2:
-	UCSR2B |= (1<<RXEN0); //enable receiver
-	UCSR2C |= ( (1<<UMSEL20) | (1<<UCSZ20) | (1<<UCSZ21) );//USART control vector: Synchronous mode with 8 bit data line
-
-	//Baud Rate define in USART.h
-	UBRR2H = (BaudPrescale >> 8); //load upper 8 bits of baud rate value to high byte of UBRRH
-	UBRR2L = BaudPrescale; // load lower 8 bits to low byte of UBBR register
-	
+	#ifdef __AVR_ATmega2560__
+		// usart1:
+		UCSR1B |= (1<<RXEN0); //enable receiver
+		UCSR1C |= ( (1<<UMSEL10) | (1<<UCSZ10) | (1<<UCSZ11) );//USART control vector: Synchronous mode with 8 bit data line
+		
+		//Baud Rate define in USART.h
+		UBRR1H = (BaudPrescale >> 8); //load upper 8 bits of baud rate value to high byte of UBRRH
+		UBRR1L = BaudPrescale; // load lower 8 bits to low byte of UBBR register
+		
+		//enable Rx interrupt on usart1
+		UCSR1B |= (1<<RXCIE1);
+		
+		// usart2:
+		UCSR2B |= (1<<RXEN0); //enable receiver
+		UCSR2C |= ( (1<<UMSEL20) | (1<<UCSZ20) | (1<<UCSZ21) );//USART control vector: Synchronous mode with 8 bit data line
+		
+		//Baud Rate define in USART.h
+		UBRR2H = (BaudPrescale >> 8); //load upper 8 bits of baud rate value to high byte of UBRRH
+		UBRR2L = BaudPrescale; // load lower 8 bits to low byte of UBBR register
+	#endif
 }
 
 void init_timers() 
@@ -131,6 +134,23 @@ void init_timers()
 	 * set 16-bit timers (1,3,4,5) up as non inverting, with a prescaler of 64, ie fast pwm
 	*/
 	
+	/*
+	//timer control registers
+	TCCR0A |= ( (1 << COM0A1) | (1 << COM0A0) | (1 << COM0B1) | (1 << COM0B0) | (1 << WGM01) | (1 << WGM00) );
+	TCCR0B |= ( (1 << FOC0A) | (1 << FOC0B) | (1 << WGM02) | (1 << CS02) | (1 << CS01) | (1 << CS00) );
+	*/
+
+	//timer0
+	//Waveform Generation Mode
+	TCCR0A |= (1 << WGM00); //PWM, Phase Correct (TOP=OCRA, Update of OCRx at = TOP, TOV Flag Set on = BOTTOM
+	TCCR0B |= (1 << WGM02);
+	//Compare Output Mode
+	TCCR0A |= ( (1 << COM0A1) | (1 << COM0B1) ); //Clear OC0A/OC0B on Compare Match when up-counting. Set OC0A/OC0B on Compare Match when down-counting.
+	//Clock Select Bit
+	TCCR1B |= ( (1 << CS02) | (1 << CS00) ); //clk(I/O)/1024 (From prescaler)
+	//Pin Data Direction
+	DDRD |= ( (1 << PD5) | (1 << PD6) ); //set OC0A anf OC0B as outputs
+
 	//timer1
 	TCCR1A |= ( (1<<COM1A1) | (1<<COM1B1) | (1<<WGM11) ); 
 	TCCR1B |= ( (1<<WGM13) | (1<<WGM12) | (1<<CS11) | (1<<CS10) );
@@ -138,24 +158,25 @@ void init_timers()
 	//just to be sure, set pins as out
 	DDRB |= ( (1<<PB5) | (1<<PB7) | (1<<PB7) );
 	
-	//timer3
-	TCCR3A |= ( (1<<COM3A1) | (1<<COM3B1) | (1<<WGM31) ); 
-	TCCR3B |= ( (1<<WGM33) | (1<<WGM32) | (1<<CS31) | (1<<CS30) ); 
-	ICR3 = 4999; 
-	DDRE |= ( (1<<PE3) | (1<<PE4) | (1<<PE5) );
+	#ifdef __AVR_ATmega2560__
+		//timer3
+		TCCR3A |= ( (1<<COM3A1) | (1<<COM3B1) | (1<<WGM31) ); 
+		TCCR3B |= ( (1<<WGM33) | (1<<WGM32) | (1<<CS31) | (1<<CS30) ); 
+		ICR3 = 4999; 
+		DDRE |= ( (1<<PE3) | (1<<PE4) | (1<<PE5) );
 	
-	//timer4
-	TCCR4A |= ( (1<<COM4A1) | (1<<COM4B1) | (1<<WGM41) ); 
-	TCCR4B |= ( (1<<WGM43) | (1<<WGM42) | (1<<CS41) | (1<<CS40) ); 
-	ICR4 = 4999;
-	DDRH |= ( (1<<PH3) | (1<<PH4) | (1<<PH5) );
+		//timer4
+		TCCR4A |= ( (1<<COM4A1) | (1<<COM4B1) | (1<<WGM41) ); 
+		TCCR4B |= ( (1<<WGM43) | (1<<WGM42) | (1<<CS41) | (1<<CS40) ); 
+		ICR4 = 4999;
+		DDRH |= ( (1<<PH3) | (1<<PH4) | (1<<PH5) );
 	
-	//timer5
-	TCCR5A |= ( (1<<COM5A1) | (1<<COM5B1) | (1<<WGM51) ); 
-	TCCR5B |= ( (1<<WGM53) | (1<<WGM52) | (1<<CS51) | (1<<CS50) ); 
-	ICR5 = 4999; 
-	DDRL |= ( (1<<PL3) | (1<<PL4) | (1<<PL5) );
-	
+		//timer5
+		TCCR5A |= ( (1<<COM5A1) | (1<<COM5B1) | (1<<WGM51) ); 
+		TCCR5B |= ( (1<<WGM53) | (1<<WGM52) | (1<<CS51) | (1<<CS50) ); 
+		ICR5 = 4999; 
+		DDRL |= ( (1<<PL3) | (1<<PL4) | (1<<PL5) );
+	#endif
 }	
 
 
