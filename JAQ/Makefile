@@ -81,7 +81,9 @@ OBJDIR = C:\Projects\JAQ\JAQ\Debug
 
 
 # List C source files here. (C dependencies are automatically generated.)
-SRC = $(TARGET).c
+#SRC = $(TARGET).c
+#SRC = $(wildcard *.c)
+SRC = JAQ.c init_io.c
 
 
 # List C++ source files here. (C dependencies are automatically generated.)
