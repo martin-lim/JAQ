@@ -3,7 +3,8 @@
  *
  * Created: 15/02/2012 22:54:33 PM
  *  Author: Shavi
- *  
+ *  Modify: Martin
+ *
  *  bit order: 7654 3210
  *	1 - bit out
  *  0 - bits in
