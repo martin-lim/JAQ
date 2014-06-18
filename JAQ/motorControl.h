@@ -10,7 +10,7 @@
 	#define _MOTOR_CONTROL_H_
 	
 	void motorStartUpSequence (void);
-	void motorStop();
+	void motorStop(void);
 	
 	void _motor1(uint16_t freq);
 	void _motor2(uint16_t freq);

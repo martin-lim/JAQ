@@ -70,5 +70,5 @@
 		int16_t magz;
 	}Sensors;
 	
-	void calculator();
+	void calculator(void);
 #endif

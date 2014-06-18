@@ -25,9 +25,9 @@
 	#define BaudRate 57600
 	#define BaudPrescale (((F_CPU / (BaudRate*16UL))) - 1) //
 	
-	void init_IO();
-	void init_usart();
-	void init_timers();
+	void init_IO(void);
+	void init_usart(void);
+	void init_timers(void);
 	
 #endif /* INIT_IO_H_ */
 
