@@ -8,14 +8,17 @@
 
 
 #include "jaq.h"
-#include <avr/io.h>
 
 int main(void)
 {
+	init_timers;
+
 	while(1)
 	{
-		//updateSensors();
-		//updateStabilise();
-		//MotorControl();
+		OCR0A = 250;
+		OCR0B = 240;
+		//updateSensors;
+		//updateStabilise;
+		//MotorControl;
     }
 }

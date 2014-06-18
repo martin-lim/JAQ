@@ -23,12 +23,13 @@
 	#define __DOXYGEN__
 
 	//standard library
-	//#include <avr/interrupt.h>
+	#include <avr/io.h>
 	#include <stdint.h>
+	//#include <avr/interrupt.h>
 
 	//custom library
-	/*
 	#include "init_io.h"
+	/*
 	#include "stabilityControl.h"
 	#include "motorControl.h"
 	*/
