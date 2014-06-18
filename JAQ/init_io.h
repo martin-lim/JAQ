@@ -8,7 +8,10 @@
  #ifndef _INIT_IO_H_
 	#define _INIT_IO_H_
 
+	#ifndef __AVR_ATmega328__
 	#define __AVR_ATmega328__
+	#endif
+
 	#include <avr/io.h>
 	//#include "USART.h"
 	//#include "ADC.h"
