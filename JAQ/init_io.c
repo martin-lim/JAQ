@@ -43,9 +43,10 @@
 
 void init_IO()
 {
-    DDRA=0x00;
-	PORTA=0x00;
-
+	#ifdef __AVR_ATmega2560__
+		DDRA=0x00;
+		PORTA=0x00;
+	#endif
 	//timer 1A:PB5; timer1B:PB6; timer1C:PB7
 	DDRB=( (1<<PB5) |  (1<<PB6) | (1<<PB7) );
 	PORTB=0x00;
@@ -147,7 +148,7 @@ void init_timers()
 	//Compare Output Mode
 	TCCR0A |= ( (1 << COM0A1) | (1 << COM0B1) ); //Clear OC0A/OC0B on Compare Match when up-counting. Set OC0A/OC0B on Compare Match when down-counting.
 	//Clock Select Bit
-	TCCR1B |= ( (1 << CS02) | (1 << CS00) ); //clk(I/O)/1024 (From prescaler)
+	TCCR0B |= ( (1 << CS02) | (1 << CS00) ); //clk(I/O)/1024 (From prescaler)
 	//Pin Data Direction
 	DDRD |= ( (1 << PD5) | (1 << PD6) ); //set OC0A anf OC0B as outputs
 

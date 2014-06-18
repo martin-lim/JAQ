@@ -11,12 +11,18 @@
 
 int main(void)
 {
-	init_timers;
+	init_IO();
+	init_timers();
+
+	//for testing only
+	OCR0A = 251;
+	OCR0B = 10;
 
 	while(1)
 	{
-		OCR0A = 250;
-		OCR0B = 240;
+		//blink led
+		PORTB |= (1 << PB5);
+
 		//updateSensors;
 		//updateStabilise;
 		//MotorControl;
