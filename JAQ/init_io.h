@@ -22,7 +22,7 @@
 	#endif
 
 	//USART1 baud settings:
-	#define BaudRate 57600
+	#define BaudRate 38400
 	#define BaudPrescale (((F_CPU / (BaudRate*16UL))) - 1) //
 	
 	void init_IO(void);

@@ -91,20 +91,46 @@ void init_IO()
 
 void init_usart()
 {
-	//BaudRate: 57600
-	
-	// usart0: command
-	UCSR0B |= ((1<<RXEN0) | (1<<TXEN0)); //enable receiver & transmit
-	UCSR0C |= ( (1<<UMSEL00) | (1<<UCSZ00) | (1<<UCSZ01) );//USART control vector: Synchronous mode with 8 bit data line
-	
-	//Baud Rate define in USART.h
-	UBRR0H = (BaudPrescale >> 8); //load upper 8 bits of baud rate value to high byte of UBRRH
-	UBRR0L = BaudPrescale; // load lower 8 bits to low byte of UBBR register
-	
-	//enable Rx interrupt on usart0
-	UCSR0B |= (1<<RXCIE0);
-	
+	/*
+	//USART Control and Status Registers
+	UCSR0A |= ((1 << RXC0) | (1 << TXC0) | (1 << UDRE0) | (1 << FE0) | (1 << DOR0) | (1 << UPE0) | (1 << U2X0) | (1 << MPCM0));
+	UCSR0B |= ((1 << RXCIE0) | (1 << TXCIE0) | (1 << UDRIE0) | (1 << RXEN0) | (1 << TXEN0) | (1 << UCSZ02) | (1 << RXB80) | (1 << TXB80));
+	UCSR0C |= ((1 << UMSEL01) | (1 << UMSEL00) | (1 << UPM01) | (1 << UPM00) | (1 << USBS0) | (1 << UCSZ01) | (1 << UCSZ00) | (1 << UCPOL0));
+	UBRR0H =
+	UBRR0L =
+	*/
+
+	//USART0
+	UCSR0B |= ((1 << RXEN0) | (1 << TXEN0)); //enable Transmit Receive
+	//USART Mode Select
+	UCSR0C &= ~((1 << UMSEL01) | (1 << UMSEL00)); //Asynchronous USART
+	//Parity Mode
+	UCSR0C &= ~((1 << UPM01) | (1 << UPM00)); //Parity Disabled
+	//Stop Bit Select
+	UCSR0C &= ~(1 << USBS0); //1-bit
+	//Character Size (Data length)
+	UCSR0B &= ~(1 << UCSZ02); //8-bit
+	UCSR0C |= ((1 << UCSZ01) | (1 << UCSZ00));
+	//Baud Rate
+	UBRR0H = (BaudPrescale >> 8); //38400
+	UBRR0L = BaudPrescale; 
+	//enable interupt?
+	//UCSR0B |= (1 << RXCIE0);
+
 	#ifdef __AVR_ATmega2560__
+		/*
+		// usart0: command
+		UCSR0B |= ( (1 << RXEN0) | (1 << TXEN0) ); //enable receiver & transmit
+		UCSR0C |= ((1 << UMSEL00) | (1 << UCSZ00) | (1 << UCSZ01));//USART control vector: Synchronous mode with 8 bit data line
+
+		//Baud Rate define in USART.h
+		UBRR0H = (BaudPrescale >> 8); //load upper 8 bits of baud rate value to high byte of UBRRH
+		UBRR0L = BaudPrescale; // load lower 8 bits to low byte of UBBR register
+
+		//enable Rx interrupt on usart0
+		UCSR0B |= (1 << RXCIE0);
+		*/
+
 		// usart1:
 		UCSR1B |= (1<<RXEN0); //enable receiver
 		UCSR1C |= ( (1<<UMSEL10) | (1<<UCSZ10) | (1<<UCSZ11) );//USART control vector: Synchronous mode with 8 bit data line
@@ -137,30 +163,48 @@ void init_timers()
 	*/
 	
 	/*
-	//timer control registers
-	TCCR0A |= ( (1 << COM0A1) | (1 << COM0A0) | (1 << COM0B1) | (1 << COM0B0) | (1 << WGM01) | (1 << WGM00) );
-	TCCR0B |= ( (1 << FOC0A) | (1 << FOC0B) | (1 << WGM02) | (1 << CS02) | (1 << CS01) | (1 << CS00) );
+	//8bit timer control registers
+	TCCR0A |= ((1 << COM0A1) | (1 << COM0A0) | (1 << COM0B1) | (1 << COM0B0) | (1 << WGM01) | (1 << WGM00));
+	TCCR0B |= ((1 << FOC0A) | (1 << FOC0B) | (1 << WGM02) | (1 << CS02) | (1 << CS01) | (1 << CS00));
+	
+	//16bit timer control registers
+	TCCR1A |= ((1 << COM1A1) | (1 << COM1A0) | (1 << COM1B1) | (1 << COM1B0) | (1 << COM1C1) | (1 << COM1C0) | (1 << WGM11) | (1 << WGM10));
+	TCCR1B |= ((1 << ICNC1) | (1 << ICES1) | (1 << WGM13) | (1 << WGM12) | (1 << CS12) | (1 << CS11) | (1 << CS10));
+	TCCR1C |= ((1 << FOC1A) | (1 << FOC1B) | (1 << FOC1C));
 	*/
 
-	//timer0
+	//timer0 - OC0A/OC0B
 	//Waveform Generation Mode
 	TCCR0A |= (1 << WGM00); //PWM, Phase Correct (TOP=OCRA, Update of OCRx at = TOP, TOV Flag Set on = BOTTOM
 	TCCR0B |= (1 << WGM02);
 	//Compare Output Mode
-	TCCR0A |= ( (1 << COM0A1) | (1 << COM0B1) ); //Clear OC0A/OC0B on Compare Match when up-counting. Set OC0A/OC0B on Compare Match when down-counting.
+	TCCR0A |= ((1 << COM0A1) | (1 << COM0B1)); //Clear OC0A/OC0B on Compare Match when up-counting. Set OC0A/OC0B on Compare Match when down-counting.
 	//Clock Select Bit
-	TCCR0B |= ( (1 << CS02) | (1 << CS00) ); //clk(I/O)/1024 (From prescaler)
+	TCCR0B |= ((1 << CS01) | (1 << CS00)); //clkI/O/64 (From prescaler) //TODO: need to calculate right frequency
 	//Pin Data Direction
-	DDRD |= ( (1 << PD5) | (1 << PD6) ); //set OC0A anf OC0B as outputs
-
-	//timer1
-	TCCR1A |= ( (1<<COM1A1) | (1<<COM1B1) | (1<<WGM11) ); 
-	TCCR1B |= ( (1<<WGM13) | (1<<WGM12) | (1<<CS11) | (1<<CS10) );
-	ICR1 = 4999; //PWM freq
-	//just to be sure, set pins as out
-	DDRB |= ( (1<<PB5) | (1<<PB7) | (1<<PB7) );
+	DDRD |= ((1 << PD5) | (1 << PD6)); //set OC0A anf OC0B as outputs
+	//TODO: need to add frequency here
+	//TODO: WARNING - need safe initial period and frequency, or else motor spins like crazy
+	OCR0A = 254;
+	OCR0B = 10;
 	
 	#ifdef __AVR_ATmega2560__
+		//TODO:not tested yet
+		//timer1 - OC1A/OC1B/OC1C
+		//Waveform Generation Mode
+		TCCR1B |= (1 << WGM13);	//PWM, Phase and Frequency Correct (TOP=ICRn, Update of OCRnx at = BOTTOM, TOV Flag Set on = BOTTOM)
+		//Compare Output Mode
+		TCCR1A |= ((1 << COM1A1) | (1 << COM1B1) | (1 << COM1B1));	//Clear OCnA/OCnB/OCnC on compare match when up-counting. Set OCnA/OCnB/OCnC on compare match when downcounting
+		//Clock Select Bit
+		TCCR1B |= ((1 << CS11) | (1 << CS10));	//clkI/O/64 (From prescaler)
+		//Pin Data Direction
+		DDRB |= ((1 << PB5) | (1 << PB6) | (1 << PB7)); //set OC1A/OC1B/OC1C as outputs
+		//Frequency
+		ICR1 = 65535; //Max value //TODO: might need to move this into a function later
+		OCR1A = 10; //TODO:?
+		OCR1B = 10;
+		OCR1C = 10;
+	
 		//timer3
 		TCCR3A |= ( (1<<COM3A1) | (1<<COM3B1) | (1<<WGM31) ); 
 		TCCR3B |= ( (1<<WGM33) | (1<<WGM32) | (1<<CS31) | (1<<CS30) ); 
