@@ -179,50 +179,14 @@ void init_timers()
 	TCCR0B |= (1 << WGM02);
 	//Compare Output Mode
 	TCCR0A |= ((1 << COM0A1) | (1 << COM0B1)); //Clear OC0A/OC0B on Compare Match when up-counting. Set OC0A/OC0B on Compare Match when down-counting.
-	//Clock Select Bit
-	TCCR0B |= ((1 << CS01) | (1 << CS00)); //clkI/O/64 (From prescaler) //TODO: need to calculate right frequency
 	//Pin Data Direction
 	DDRD |= ((1 << PD5) | (1 << PD6)); //set OC0A anf OC0B as outputs
+	//Clock Select Bit
+	TCCR0B |= ((1 << CS01) | (1 << CS00)); //clkI/O/64 (From prescaler) //TODO: need to calculate right frequency
 	//TODO: need to add frequency here
 	//TODO: WARNING - need safe initial period and frequency, or else motor spins like crazy
-	OCR0A = 254;
-	OCR0B = 10;
-	
-	#ifdef __AVR_ATmega2560__
-		//TODO:not tested yet
-		//timer1 - OC1A/OC1B/OC1C
-		//Waveform Generation Mode
-		TCCR1B |= (1 << WGM13);	//PWM, Phase and Frequency Correct (TOP=ICRn, Update of OCRnx at = BOTTOM, TOV Flag Set on = BOTTOM)
-		//Compare Output Mode
-		TCCR1A |= ((1 << COM1A1) | (1 << COM1B1) | (1 << COM1B1));	//Clear OCnA/OCnB/OCnC on compare match when up-counting. Set OCnA/OCnB/OCnC on compare match when downcounting
-		//Clock Select Bit
-		TCCR1B |= ((1 << CS11) | (1 << CS10));	//clkI/O/64 (From prescaler)
-		//Pin Data Direction
-		DDRB |= ((1 << PB5) | (1 << PB6) | (1 << PB7)); //set OC1A/OC1B/OC1C as outputs
-		//Frequency
-		ICR1 = 65535; //Max value //TODO: might need to move this into a function later
-		OCR1A = 10; //TODO:?
-		OCR1B = 10;
-		OCR1C = 10;
-	
-		//timer3
-		TCCR3A |= ( (1<<COM3A1) | (1<<COM3B1) | (1<<WGM31) ); 
-		TCCR3B |= ( (1<<WGM33) | (1<<WGM32) | (1<<CS31) | (1<<CS30) ); 
-		ICR3 = 4999; 
-		DDRE |= ( (1<<PE3) | (1<<PE4) | (1<<PE5) );
-	
-		//timer4
-		TCCR4A |= ( (1<<COM4A1) | (1<<COM4B1) | (1<<WGM41) ); 
-		TCCR4B |= ( (1<<WGM43) | (1<<WGM42) | (1<<CS41) | (1<<CS40) ); 
-		ICR4 = 4999;
-		DDRH |= ( (1<<PH3) | (1<<PH4) | (1<<PH5) );
-	
-		//timer5
-		TCCR5A |= ( (1<<COM5A1) | (1<<COM5B1) | (1<<WGM51) ); 
-		TCCR5B |= ( (1<<WGM53) | (1<<WGM52) | (1<<CS51) | (1<<CS50) ); 
-		ICR5 = 4999; 
-		DDRL |= ( (1<<PL3) | (1<<PL4) | (1<<PL5) );
-	#endif
+	OCR0A = 254; //frequency
+	OCR0B = 10;	//period
 }	
 
 
