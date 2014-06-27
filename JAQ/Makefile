@@ -83,7 +83,7 @@ OBJDIR = C:\Projects\JAQ\JAQ\Debug
 # List C source files here. (C dependencies are automatically generated.)
 #SRC = $(TARGET).c
 #SRC = $(wildcard *.c)
-SRC = JAQ.c init_io.c
+SRC = JAQ.c init_io.c motorControl.c
 
 
 # List C++ source files here. (C dependencies are automatically generated.)
