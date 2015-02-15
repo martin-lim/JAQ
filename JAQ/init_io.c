@@ -100,23 +100,6 @@ void init_usart()
 	UBRR0L =
 	*/
 
-	//USART0
-	UCSR0B |= ((1 << RXEN0) | (1 << TXEN0)); //enable Transmit Receive
-	//USART Mode Select
-	UCSR0C &= ~((1 << UMSEL01) | (1 << UMSEL00)); //Asynchronous USART
-	//Parity Mode
-	UCSR0C &= ~((1 << UPM01) | (1 << UPM00)); //Parity Disabled
-	//Stop Bit Select
-	UCSR0C &= ~(1 << USBS0); //1-bit
-	//Character Size (Data length)
-	UCSR0B &= ~(1 << UCSZ02); //8-bit
-	UCSR0C |= ((1 << UCSZ01) | (1 << UCSZ00));
-	//Baud Rate
-	UBRR0H = (BaudPrescale >> 8); //38400
-	UBRR0L = BaudPrescale; 
-	//enable interupt?
-	//UCSR0B |= (1 << RXCIE0);
-
 	#ifdef __AVR_ATmega2560__
 		/*
 		// usart0: command

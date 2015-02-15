@@ -34,6 +34,11 @@ void Motor_arm()
 *	- Make PB5, PB6, PB7 Output
 * Clock Select 
 *	- clk(I/O)/64 (From prescaler) 
+* ICR1
+*	- define in header file
+* OCR1A
+* OCR1B
+* OCR1C
 ************************************************/
 void Timer1_init()
 {
@@ -61,6 +66,8 @@ void Timer1_init()
 *	- Make PE3 Output
 * Clock Select
 *	- clk(I/O)/64 (From prescaler)
+* ICR3 (define in header file)
+* OCR3A
 ************************************************/
 void Timer3_init()
 {
@@ -102,24 +109,25 @@ void Motor_drive(int Motor_number, uint16_t pwm_duty)
 {
 	if (pwm_duty == 0)
 	{
+		//set pin low
 		switch (Motor_number)
 		{
-			case 1:
+			case MOTOR1:
 				TCCR1A &= ~(1 << COM1A1);
 				PORTB &= ~(1 << PB5);
 				break;
 
-			case 2:
+			case MOTOR2:
 				TCCR1A &= ~(1 << COM1B1);
 				PORTB &= ~(1 << PB6);
 				break;
 
-			case 3:
+			case MOTOR3:
 				TCCR1A &= ~(1 << COM1C1);
 				PORTB &= ~(1 << PB7);
 				break;
 
-			case 4:
+			case MOTOR4:
 				TCCR3A &= ~(1 << COM3A1);
 				PORTE &= ~(1 << PE3);
 				break;
@@ -130,6 +138,7 @@ void Motor_drive(int Motor_number, uint16_t pwm_duty)
 	}
 	else if (pwm_duty == TIMER_TOP_VAL)
 	{
+		//set pin high
 		switch (Motor_number)
 		{
 			case 1:
@@ -158,6 +167,7 @@ void Motor_drive(int Motor_number, uint16_t pwm_duty)
 	}
 	else
 	{
+		//set pin to timer
 		switch (Motor_number)
 		{
 			case 1:

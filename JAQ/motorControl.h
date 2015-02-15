@@ -13,12 +13,10 @@
 #define __AVR_ATmega2560__
 #endif
 
-#define MOTOR_ALL 0
 #define MOTOR1 1
 #define MOTOR2 2
 #define MOTOR3 3
 #define MOTOR4 4
-
 #define TIMER_TOP_VAL 0xFFFF //65535
 
 #include <avr/io.h>

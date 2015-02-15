@@ -20,10 +20,6 @@
 	#ifndef F_CPU
 		#define F_CPU 16*10^6UL
 	#endif
-
-	//USART1 baud settings:
-	#define BaudRate 38400
-	#define BaudPrescale (((F_CPU / (BaudRate*16UL))) - 1) //
 	
 	void init_IO(void);
 	void init_usart(void);
