@@ -1,13 +1,10 @@
-/*
-* RemoteControl.c
-*
-* Created: 28/06/2014 12:18:00 PM
-*  Author: Martin Lim
-*
-* TODO: learn how to create class and pointers
-*/
+/*--------------------------
+File Name	: remote_control.c
+Created by	: Martin Lim
+Date 		: 28/06/2014
+----------------------------*/
 
-#include "RemoteControl.h"
+#include "remote_control.h"
 
 /**********************************************************
 *			Function Definitions

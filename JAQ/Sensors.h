@@ -1,10 +1,8 @@
-/*
-* Sensors.h
-*
-* Created: 04/07/2014 3:03:00 PM
-*  Author: Martin Lim
-*
-*/
+/*--------------------------
+File Name	: sensors.h
+Created by	: Martin Lim
+Date 		: 04/07/2014
+----------------------------*/
 
 
 #ifndef _Sensors_H_
