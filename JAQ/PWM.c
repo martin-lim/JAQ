@@ -3,17 +3,25 @@ File Name	: PWM.c
 Created by	: Martin Lim
 Date 		: 05/03/2015
 
-PWM timer library for ATMEGA2560
+PWM library for ATMEGA2560
+
+TODO: min max values of each function?
+TODO: init counters first then assgin pins
+TODO: use funtions to set init freq and dutyc
 ----------------------------*/
 
-#define PRESCALER 64
+#define PRESCALER 64 //TODO: put this somewhere else
 
 #include "PWM.h"
 #include "config.h"
 
-void unitTest()
+/************************************************
+*			vTest	
+************************************************/
+void vTest()
 {
-	uint8_t martin;		
+	//for testing purposes only
+	uint8_t u8Martin;		
 	PORTB |= (1 << PB5);
 	_delay_ms(500);
 	PORTB &= ~(1 << PB5);
@@ -23,7 +31,7 @@ void unitTest()
 /************************************************
 *			vCounter1_Init
 ************************************************/
-/* 16 bit timer
+/* 16 bit Counter
 * Waveform Generation Mode
 *	- PWM, Phase and Frequency Correct
 *	- TOP=ICRn, Update of OCRnx at = BOTTOM,
@@ -45,7 +53,7 @@ void vCounter1_Init()
 {
 	/*Set Mode*/
 	TCCR1B |= (1 << WGM13);
-	TCCR1A |= ((1 << COM1A1) | (1 << COM1B1) | (1 << COM1C1));
+	TCCR1A |= ((1 << COM1A1) | (1 << COM1B1) | (1 << COM1C1));  //connect to pin
 	/*Set Pin Data Direction*/
 	DDRB |= ((1 << PB5) | (1 << PB6) | (1 << PB7));
 	/*Set Clock Cycle*/
@@ -61,7 +69,7 @@ void vCounter1_Init()
 /************************************************
 *			vCounter3_Init
 ************************************************/
-/*
+/* 16 bit Counter
 * Waveform Generation Mode
 *	- PWM, Phase and Frequency Correct
 *	- TOP=ICRn, Update of OCRnx at = BOTTOM,
@@ -93,9 +101,9 @@ void vCounter3_Init()
 }
 
 /************************************************
-*			vCounters_Init
+*			vPWM_Init
 ************************************************/
-void vCounters_Init()
+void vPWM_Init()
 {
 	vCounter1_Init();
 	vCounter3_Init();
@@ -104,9 +112,9 @@ void vCounters_Init()
 /************************************************
 *			vPWM_SetFrequency
 ************************************************/
-void vPWM_SetFrequency(uint16_t u16Frequency)
+void vPWM_SetFrequency(float fpFrequency)
 {
-	uint16_t u16TopVal = F_CPU / (2 * PRESCALER * u16Frequency);
+	uint16_t u16TopVal = F_CPU / (2 * PRESCALER * fpFrequency);
 	ICR1 = u16TopVal;
 	ICR3 = u16TopVal;
 }
@@ -136,6 +144,9 @@ void vPWM_SetDutyCycle(uint8_t u8OutputNo, float fpDutyCycle)
 	}
 }
 
+/************************************************
+*			vCounter1_DeInit
+************************************************/
 void vCounter1_DeInit()
 {
 	TCCR1A |= ((1 << COM1A1) | (1 << COM1B1) | (1 << COM1C1));
@@ -144,6 +155,9 @@ void vCounter1_DeInit()
 	PORTB &= ~((1 << PB5) | (1 << PB6) | (1 << PB7)); //set output low
 }
 
+/************************************************
+*			vCounter3_DeInit
+************************************************/
 void vCounter3_DeInit()
 {
 	TCCR3A |= (1 << COM3A1);
@@ -151,12 +165,13 @@ void vCounter3_DeInit()
 }
 
 /************************************************
-*		timer_deinit
+*			vPWM_DeInit
 ************************************************/
 /*
 * turns off all timers
 ************************************************/
-void vCounters_DeInit(){
+void vPWM_DeInit()
+{
 	vCounter1_DeInit();
 	vCounter3_DeInit();
 }

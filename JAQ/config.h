@@ -14,11 +14,12 @@ use this file to configure:
 #define _CONFIG_H_
 
 /* Microcontroller */
-#define __AVR_ATmega2560__
-//#define __AVR_ATmega328p__
+#define __AVR_ATmega2560__ //temporary
+//#define __AVR_ATmega328p__ //temporary
 
 /* CPU Clock */
-#define F_CPU 16*10^6UL
+//#define F_CPU 16*10^6UL
+#define F_CPU 16000000
 
 /* Motors */
 //number of motors
@@ -26,5 +27,10 @@ use this file to configure:
 /* Timers */
 //#define pwm max_value
 //#define pwm min_value
+
+//AVR libraries
+#include <avr/io.h>
+#include <stdint.h>
+#include <util/delay.h>
 
 #endif
