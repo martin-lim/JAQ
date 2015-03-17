@@ -12,7 +12,7 @@ Date 		: 05/03/2015
 #define BaudPrescale (((F_CPU / (BaudRate*8UL))) - 1)
 
 #include <avr/io.h>
-#include "config.h""
+#include "config.h"
 
 /**********************************************************
 *			Function Declaration
