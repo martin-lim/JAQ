@@ -23,6 +23,6 @@ void vMotor_Disarm();
 *   @param[in]	u8MotorNo	Motor number. (1..4)
 *   @param[in]	fpOutVal	Output value in %. (0..100)
 ************************************************/
-void vMotor_SetSpeeduint8_t u8MotorNo, float fpOutVal);
+void vMotor_SetSpeed(uint8_t u8MotorNo, float fpOutVal);
 
 #endif //_MOTOR_H_
